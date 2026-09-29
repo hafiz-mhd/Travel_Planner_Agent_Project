@@ -42,7 +42,7 @@ export default function TripDetailPage() {
   if (error && !trip) return (
     <div className="page">
       <div className="alert alert-error">{error}</div>
-      <button className="btn btn-secondary btn-sm" onClick={() => navigate('/trips')}>← Back to Trips</button>
+      <button className="btn btn-secondary btn-sm" onClick={() => navigate('/trips')}>Back to Trips</button>
     </div>
   )
 
@@ -53,15 +53,15 @@ export default function TripDetailPage() {
       {/* Back + header */}
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
         <button className="btn btn-secondary btn-sm" onClick={() => navigate('/trips')} style={{ marginTop: '.25rem' }}>
-          ← Back
+          Back
         </button>
         <div>
           <h1 className="page-title" style={{ fontSize: '1.4rem' }}>{trip?.title}</h1>
           <p className="page-subtitle">
-            📍 {trip?.destination} &nbsp;·&nbsp;
-            📅 {dayjs(trip?.start_date).format('MMM D')} – {dayjs(trip?.end_date).format('MMM D, YYYY')} &nbsp;·&nbsp;
+            {trip?.destination} &nbsp;·&nbsp;
+            {dayjs(trip?.start_date).format('MMM D')} – {dayjs(trip?.end_date).format('MMM D, YYYY')} &nbsp;·&nbsp;
             {numDays} days &nbsp;·&nbsp;
-            👥 {trip?.num_travelers} traveler{trip?.num_travelers > 1 ? 's' : ''}
+            {trip?.num_travelers} traveler{trip?.num_travelers > 1 ? 's' : ''}
           </p>
         </div>
       </div>
@@ -70,7 +70,7 @@ export default function TripDetailPage() {
 
       {/* Chat refinement */}
       <div className="chat-box">
-        <h3>💬 Refine with AI</h3>
+        <h3>Refine with AI</h3>
         <p>Ask IBM Granite to modify specific days, add food stops, change the pace, or anything else.</p>
         {error && <div className="alert alert-error">{error}</div>}
         {refining && (
@@ -89,7 +89,7 @@ export default function TripDetailPage() {
               disabled={refining}
             />
             <button type="submit" className="chat-send-btn" disabled={refining || !chatMsg.trim()}>
-              {refining ? '⏳' : '✦ Refine'}
+              {refining ? 'Refining…' : 'Refine'}
             </button>
           </div>
         </form>

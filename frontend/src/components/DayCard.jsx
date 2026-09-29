@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import dayjs from 'dayjs'
 
 const SLOT_CONFIG = {
-  morning:   { icon: '🌅', label: 'Morning',   cls: 'slot-morning'   },
-  afternoon: { icon: '☀️',  label: 'Afternoon', cls: 'slot-afternoon' },
-  evening:   { icon: '🌙', label: 'Evening',   cls: 'slot-evening'   },
+  morning:   { label: 'Morning',   cls: 'slot-morning'   },
+  afternoon: { label: 'Afternoon', cls: 'slot-afternoon' },
+  evening:   { label: 'Evening',   cls: 'slot-evening'   },
 }
 
 // Rotate gradient colours across day cards
@@ -20,33 +20,32 @@ const HEADER_GRADIENTS = [
 
 function Slot({ period, slot }) {
   if (!slot?.activity) return null
-  const { icon, label, cls } = SLOT_CONFIG[period]
+  const { label, cls } = SLOT_CONFIG[period]
   const cost = slot.estimated_cost
   const risk = slot.weather_risk?.toLowerCase() || 'low'
 
   return (
     <div className={`slot ${cls}`}>
       <div className="slot-period">
-        <span className="slot-period-icon">{icon}</span>
         <span className="slot-period-label">{label}</span>
       </div>
       <div className="slot-content">
         <div className="slot-activity">{slot.activity}</div>
         {slot.location && (
           <div className="slot-location">
-            <span>📍</span>{slot.location}
+            {slot.location}
           </div>
         )}
         {slot.description && <div className="slot-desc">{slot.description}</div>}
         <div className="slot-meta">
           {cost > 0
-            ? <span className="badge badge-cost">💰 ₹{cost.toLocaleString('en-IN')}/person</span>
-            : <span className="badge badge-free">✓ Free</span>
+            ? <span className="badge badge-cost">₹{cost.toLocaleString('en-IN')}/person</span>
+            : <span className="badge badge-free">Free</span>
           }
-          {risk === 'high'   && <span className="badge badge-risk-high">⚠️ Rain Risk</span>}
-          {risk === 'medium' && <span className="badge badge-risk-medium">🌂 Some Risk</span>}
+          {risk === 'high'   && <span className="badge badge-risk-high">Rain Risk</span>}
+          {risk === 'medium' && <span className="badge badge-risk-medium">Some Risk</span>}
         </div>
-        {slot.tips && <div className="slot-tips">💡 {slot.tips}</div>}
+        {slot.tips && <div className="slot-tips">Tip: {slot.tips}</div>}
       </div>
     </div>
   )

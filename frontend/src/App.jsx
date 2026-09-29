@@ -1,44 +1,74 @@
 import React from 'react'
-import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, NavLink, useNavigate } from 'react-router-dom'
 import { UserProvider, useUser } from './hooks/useUser'
 import PlannerPage from './pages/PlannerPage'
 import TripsPage from './pages/TripsPage'
 import TripDetailPage from './pages/TripDetailPage'
 import LoginPage from './pages/LoginPage'
+import BackgroundSlideshow from './components/BackgroundSlideshow'
 
-function Shell() {
+function FloatingNavbar() {
   const { user, logout } = useUser()
-  const initials = user ? user.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase() : ''
+  const navigate = useNavigate()
+
+  const initials = user
+    ? user.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
+    : 'JD'
 
   return (
-    <div className="app-shell">
+    <div className="navbar-wrapper">
       <nav className="navbar">
-        <div className="navbar-brand">
-          <span className="navbar-logo">✈️</span>
-          Travel Planner
+        {/* Brand Logo */}
+        <div className="navbar-brand" onClick={() => navigate('/')}>
+          <span>Travel <span className="navbar-brand-text">Planner</span></span>
         </div>
 
+        {/* Center Navigation Links */}
         <div className="navbar-links">
+          <NavLink to="/" end className={({ isActive }) => (isActive ? 'active' : '')}>
+            Home
+          </NavLink>
+          {user && (
+            <NavLink to="/trips" className={({ isActive }) => (isActive ? 'active' : '')}>
+              My Trips
+            </NavLink>
+          )}
+        </div>
+
+        {/* User Profile / Auth */}
+        <div className="navbar-user">
           {user ? (
             <>
-              <NavLink to="/" end>✦ Plan Trip</NavLink>
-              <NavLink to="/trips">🗂 My Trips</NavLink>
-              <div className="navbar-user">
+              <div className="navbar-user-pill">
                 <div className="navbar-avatar">{initials}</div>
                 <span>{user.name}</span>
-                <span className="navbar-signout" onClick={logout} title="Sign out">✕</span>
               </div>
+              <button className="navbar-signout-btn" onClick={logout} title="Sign Out">
+                Sign Out
+              </button>
             </>
           ) : (
-            <NavLink to="/login">Sign in</NavLink>
+            <NavLink to="/login" className="navbar-signout-btn">
+              Sign In
+            </NavLink>
           )}
         </div>
       </nav>
+    </div>
+  )
+}
 
+function Shell() {
+  const { user } = useUser()
+
+  return (
+    <div className="app-shell">
+      <BackgroundSlideshow />
+      <FloatingNavbar />
       <Routes>
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/"       element={user ? <PlannerPage />    : <LoginPage />} />
-        <Route path="/trips"  element={user ? <TripsPage />      : <LoginPage />} />
+        <Route path="/" element={user ? <PlannerPage /> : <LoginPage />} />
+        <Route path="/trips" element={user ? <TripsPage /> : <LoginPage />} />
         <Route path="/trips/:id" element={user ? <TripDetailPage /> : <LoginPage />} />
       </Routes>
     </div>

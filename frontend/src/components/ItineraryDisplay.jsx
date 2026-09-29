@@ -17,7 +17,7 @@ export default function ItineraryDisplay({ result, onViewTrip }) {
     <div>
       {/* Itinerary header banner */}
       <div className="itinerary-header">
-        <h2>{title || 'Your Itinerary is Ready!'} 🎉</h2>
+        <h2>{title || 'Your Itinerary is Ready!'}</h2>
         <p>{summary || "Here's your personalised day-by-day plan powered by IBM Granite"}</p>
       </div>
 
@@ -48,7 +48,6 @@ export default function ItineraryDisplay({ result, onViewTrip }) {
       {/* Weather */}
       {weather_summary && (
         <div className="weather-banner">
-          <span className="weather-icon">🌤️</span>
           <span>{weather_summary}</span>
         </div>
       )}
@@ -59,7 +58,7 @@ export default function ItineraryDisplay({ result, onViewTrip }) {
       {/* Sources */}
       {sources.length > 0 && (
         <div className="sources">
-          <span>📚 Knowledge sources:</span>
+          <span>Knowledge sources:</span>
           {[...new Set(sources)].map((s, i) => <span key={i} className="source-chip">{s}</span>)}
         </div>
       )}
@@ -69,16 +68,16 @@ export default function ItineraryDisplay({ result, onViewTrip }) {
         {trip_id && onViewTrip && (
           <>
             <button className="btn btn-primary" onClick={onViewTrip}>
-              💬 Refine with AI
+              Refine with AI
             </button>
             <button className="btn btn-secondary" onClick={onViewTrip}>
-              📋 View Full Trip
+              View Full Trip
             </button>
           </>
         )}
         {!trip_id && (
           <div className="alert alert-info" style={{ margin: 0 }}>
-            ℹ️ This itinerary was not saved. Enable "Save trip" on the form to persist it.
+            This itinerary was not saved. Enable "Save trip" on the form to persist it.
           </div>
         )}
       </div>
